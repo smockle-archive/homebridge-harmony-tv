@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // @ts-check
-const { getRemoteId, getDevices, getCommands } = require("../lib/hub");
+const { getRemoteId, getDevices, getCommands } = require("../lib/hubinfo");
 
 const host = process.argv.slice(2)[0];
 const remoteId = process.argv.slice(2)[1];
