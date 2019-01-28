@@ -1,4 +1,5 @@
 // @ts-check
+const { HarmonyHub } = require("harmonyhub-api");
 let Service, Characteristic;
 
 module.exports = function(homebridge) {
@@ -12,11 +13,16 @@ module.exports = function(homebridge) {
   );
 };
 
+// HarmonyTVAccessory
+
 function HarmonyTVAccessory(log, config) {
   this.log = log;
   this.config = config;
-  this.name = config["name"];
+  this.name = config.name;
+  this.deviceId = config.deviceId;
   this.enabledServices = [];
+
+  this.hub = new HarmonyHub(config.host, config.remoteId);
 
   // TV
 
@@ -122,4 +128,11 @@ function HarmonyTVAccessory(log, config) {
 
 HarmonyTVAccessory.prototype.getServices = function() {
   return this.enabledServices;
+};
+
+HarmonyTVAccessory.prototype.sendCommand = function(command) {
+  return this.hub.connect().then(() => {
+    this.hub.sendCommand(command, this.deviceId);
+    setTimeout(() => this.hub.disconnect(), 300);
+  });
 };

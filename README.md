@@ -42,7 +42,7 @@ npm install -g homebridge-harmony-tv-smockle-temp
 - `"name"` values must be unique
 - `"host"` should match the static IP address of your Harmony Hub
 - `"remoteId"` is the unique identifier of your Harmony Hub, and can be obtained by running `node_modules/.bin/harmony-remote-id 192.168.1.10` (with the IP address of your Harmony Hub)
-- `"deviceId"` is the unique identifier of the Harmony Hub-connected TV you want to control
+- `"deviceId"` is the unique identifier of the Harmony Hub-connected TV you want to control, and can be obtained by running `node scripts/get-commands.js 192.168.1.10 22571993` (with the IP address and unique identifier of your Harmony Hub)
 
 # Useful Links
 
