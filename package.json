@@ -1,0 +1,27 @@
+{
+  "name": "homebridge-harmony-tv-smockle",
+  "description": "Creates a HomeKit TV accessory for a Logitech Harmony-controlled TV",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smockle/homebridge-harmony-tv.git"
+  },
+  "keywords": [
+    "homebridge",
+    "homebridge-plugin"
+  ],
+  "author": "Clay Miller <clay@smockle.com> (https://www.smockle.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smockle/homebridge-harmony-tv/issues"
+  },
+  "homepage": "https://github.com/smockle/homebridge-harmony-tv#readme",
+  "engines": {
+    "homebridge": ">=0.4.46",
+    "node": ">=10.0.0"
+  },
+  "dependencies": {
+    "homebridge": ">=0.4.46"
+  }
+}
