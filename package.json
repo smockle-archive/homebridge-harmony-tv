@@ -1,7 +1,7 @@
 {
   "name": "homebridge-harmony-tv-smockle-temp",
   "description": "Creates a HomeKit TV accessory for a Logitech Harmony-controlled TV",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Info: no test specified\" && exit 0",
