@@ -12,7 +12,6 @@ module.exports = function(homebridge) {
   );
 };
 
-// @ts-check
 function HarmonyTVAccessory(log, config) {
   this.log = log;
   this.config = config;
