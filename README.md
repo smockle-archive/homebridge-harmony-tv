@@ -42,7 +42,27 @@ npm install -g homebridge-harmony-tv-smockle-temp
     "host": "192.168.1.10",
     "remoteId": "22571993",
     "deviceId": "72306838",
-    "commands": []
+    "commands": [{
+      "action": "{\"command\":\"PowerToggle\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
+      "name": "PowerToggle",
+      "label": "Power Toggle"
+    }, {
+      "action": "{\"command\":\"VolumeDown\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
+      "name": "VolumeDown",
+      "label": "Volume Down"
+    }, {
+      "action": "{\"command\":\"VolumeUp\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
+      "name": "VolumeUp",
+      "label": "Volume Up"
+    }, {
+      "action": "{\"command\":\"InputHdmi1\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
+      "name": "InputHdmi1",
+      "label": "InputHdmi1"
+    }, {
+      "action": "{\"command\":\"InputHdmi2\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
+      "name": "InputHdmi2",
+      "label": "InputHdmi2"
+    }]
   }],
 }
 ```
