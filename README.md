@@ -15,6 +15,16 @@ Review the [Installation](https://github.com/nfarina/homebridge#installation) se
 npm install -g homebridge-harmony-tv-smockle-temp
 ```
 
+# Setup
+
+1. Find the static IP address of your Harmony Hub. In the plugin [configuration](#Configuration), this is the `"host"` value.
+
+2. Run `node scripts/hubinfo.js $HOST` to find the unique identifier of your Harmony Hub. In the plugin [configuration](#Configuration), this is the `"remoteId"` value.
+
+3. Run `node scripts/hubinfo.js $HOST $REMOTE_ID` to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
+
+4. Run `node scripts/hubinfo.js $HOST $REMOTE_ID $DEVICE_ID` to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
+
 # Configuration
 
 ```JSON
@@ -31,7 +41,8 @@ npm install -g homebridge-harmony-tv-smockle-temp
     "name": "Living Room TV",
     "host": "192.168.1.10",
     "remoteId": "22571993",
-    "deviceId": "72306838"
+    "deviceId": "72306838",
+    "commands": []
   }],
 }
 ```
@@ -40,9 +51,6 @@ npm install -g homebridge-harmony-tv-smockle-temp
 
 - `"accessory"` must be `"HarmonyTV"`
 - `"name"` values must be unique
-- `"host"` should match the static IP address of your Harmony Hub
-- `"remoteId"` is the unique identifier of your Harmony Hub, and can be obtained by running `node scripts/hubinfo.js 192.168.1.10` (with the IP address of your Harmony Hub)
-- `"deviceId"` is the unique identifier of the Harmony Hub-connected TV you want to control, and can be obtained by running `node scripts/hubinfo.js 192.168.1.10 22571993` (with the IP address and unique identifier of your Harmony Hub)
 
 # Useful Links
 
