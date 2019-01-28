@@ -7,7 +7,44 @@
 
 Creates a HomeKit TV accessory for a Logitech Harmony-controlled TV
 
-## Useful Links
+# Installation
+
+Review the [Installation](https://github.com/nfarina/homebridge#installation) section of the Homebridge README.
+
+```Bash
+npm install -g homebridge-harmony-tv-smockle-temp
+```
+
+# Configuration
+
+```JSON
+{
+  "bridge": {
+    "name": "TV Bridge",
+    "username": "CC:22:3D:E3:CE:30",
+    "port": 51826,
+    "pin": "031-45-154"
+  },
+  "description": "SmartHome with Homebridge",
+  "accessories": [{
+    "accessory": "HarmonyTV",
+    "name": "Living Room TV",
+    "host": "192.168.1.10",
+    "remoteId": "22571993",
+    "deviceId": "72306838",
+  }],
+}
+```
+
+**Notes:**
+
+- `"platform"` must be `"HarmonyTV"`
+- `"name"` values must be unique
+- `"host"` should match the static IP address of your Harmony Hub
+- `"remoteId"` is the unique identifier of your Harmony Hub, and can be obtained by running `node_modules/.bin/harmony-remote-id 192.168.1.10` (with the IP address of your Harmony Hub)
+- `"deviceId"` is the unique identifier of the Harmony Hub-connected TV you want to control
+
+# Useful Links
 
 - [Harmony HTTP](https://github.com/smockle/harmony-http)
 - [Node.JS HAP TV Accessory Example](https://github.com/KhaosT/HAP-NodeJS/blob/master/accessories/TV_accessory.js)
