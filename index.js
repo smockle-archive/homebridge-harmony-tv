@@ -105,19 +105,23 @@ function HarmonyTVAccessory(log, config) {
           return Characteristic.InputSourceType.OTHER;
       }
     })();
-    const inputId = name.toLowerCase();
-    const serviceId = `input${name.toUpperCase()}Service`;
-    this[serviceId] = new Service.InputSource(inputId, name);
-    this[serviceId]
+    this[`input${name.toUpperCase()}Service`] = new Service.InputSource(
+      name.toLowerCase(),
+      name.replace(/^([\w]+)([\d]+)$/, "$1 $2").toUpperCase()
+    );
+    this[`input${name.toUpperCase()}Service`]
       .setCharacteristic(Characteristic.Identifier, index)
-      .setCharacteristic(Characteristic.ConfiguredName, name)
+      .setCharacteristic(
+        Characteristic.ConfiguredName,
+        name.replace(/^([\w]+)([\d]+)$/, "$1 $2").toUpperCase()
+      )
       .setCharacteristic(
         Characteristic.IsConfigured,
         Characteristic.IsConfigured.CONFIGURED
       )
       .setCharacteristic(Characteristic.InputSourceType, type);
-    this.tvService.addLinkedService(this[serviceId]);
-    this.enabledServices.push(this[serviceId]);
+    this.tvService.addLinkedService(this[`input${name.toUpperCase()}Service`]);
+    this.enabledServices.push(this[`input${name.toUpperCase()}Service`]);
   });
 
   this.enabledServices.push(this.tvService);
