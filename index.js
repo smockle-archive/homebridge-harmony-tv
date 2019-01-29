@@ -20,6 +20,7 @@ function HarmonyTVAccessory(log, config) {
   this.config = config;
   this.name = config.name;
   this.deviceId = config.deviceId;
+  this.commands = config.commands;
   this.enabledServices = [];
 
   this.hub = new HarmonyHub(config.host, config.remoteId);
@@ -35,7 +36,21 @@ function HarmonyTVAccessory(log, config) {
   this.tvService
     .getCharacteristic(Characteristic.Active)
     .on("set", (newValue, callback) => {
-      console.log(`set Active => setNewValue: ${newValue}`);
+      switch (true) {
+        case this.supportsCommand("PowerOff") &&
+          this.supportsCommand("PowerOn") &&
+          newValue === 0:
+          this.sendCommand("PowerOff");
+          break;
+        case this.supportsCommand("PowerOff") &&
+          this.supportsCommand("PowerOn") &&
+          newValue === 1:
+          this.sendCommand("PowerOn");
+          break;
+        case this.supportsCommand("PowerToggle"):
+          this.sendCommand("PowerToggle");
+          break;
+      }
       callback(null);
     });
   this.tvService.setCharacteristic(Characteristic.ActiveIdentifier, 1);
@@ -128,6 +143,10 @@ function HarmonyTVAccessory(log, config) {
 
 HarmonyTVAccessory.prototype.getServices = function() {
   return this.enabledServices;
+};
+
+HarmonyTVAccessory.prototype.supportsCommand = function(command) {
+  return this.commands.some(({ name }) => name === command);
 };
 
 HarmonyTVAccessory.prototype.sendCommand = function(command) {
