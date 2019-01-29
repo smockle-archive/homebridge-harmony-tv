@@ -1,6 +1,6 @@
 # Homebridge Harmony TV
 
-[![npm](https://img.shields.io/npm/v/homebridge-harmony-tv-smockle-temp.svg)](https://www.npmjs.com/package/homebridge-harmony-tv-smockle-temp)
+[![npm](https://img.shields.io/npm/v/homebridge-harmony-tv-smockle.svg)](https://www.npmjs.com/package/homebridge-harmony-tv-smockle)
 [![Build Status](https://travis-ci.com/smockle/homebridge-harmony-tv.svg?branch=master)](https://travis-ci.com/smockle/homebridge-harmony-tv)
 [![Known Vulnerabilities](https://snyk.io/test/github/smockle/homebridge-harmony-tv/badge.svg?targetFile=package.json)](https://snyk.io/test/github/smockle/homebridge-harmony-tv?targetFile=package.json)
 [![Greenkeeper badge](https://badges.greenkeeper.io/smockle/homebridge-harmony-tv.svg)](https://greenkeeper.io/)
@@ -12,7 +12,7 @@ Creates a HomeKit TV accessory for a Logitech Harmony-controlled TV
 Review the [Installation](https://github.com/nfarina/homebridge#installation) section of the Homebridge README.
 
 ```Bash
-npm install -g homebridge-harmony-tv-smockle-temp
+npm install -g homebridge-harmony-tv-smockle
 ```
 
 # Setup

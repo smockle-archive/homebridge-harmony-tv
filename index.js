@@ -7,7 +7,7 @@ module.exports = function(homebridge) {
   Characteristic = homebridge.hap.Characteristic;
 
   homebridge.registerAccessory(
-    "homebridge-harmony-tv-smockle-temp",
+    "homebridge-harmony-tv-smockle",
     "HarmonyTV",
     HarmonyTVAccessory
   );
