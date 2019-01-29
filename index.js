@@ -90,7 +90,7 @@ function HarmonyTVAccessory(log, config) {
   this.tvService
     .getCharacteristic(Characteristic.ActiveIdentifier)
     .on("set", (newValue, callback) => {
-      const { command } = inputs[newValue];
+      const { name: command } = inputs[newValue];
       if (this.supportsCommand(command)) {
         this.sendCommand(command);
       }
