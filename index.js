@@ -114,7 +114,7 @@ function HarmonyTVAccessory(log, config) {
 
   // Inputs
 
-  this.tvService.setCharacteristic(Characteristic.ActiveIdentifier, 1);
+  this.tvService.setCharacteristic(Characteristic.ActiveIdentifier, 0);
   this.tvService
     .getCharacteristic(Characteristic.ActiveIdentifier)
     .on("set", (newValue, callback) => {
