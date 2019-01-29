@@ -22,25 +22,40 @@ Examples:
 }
 
 // Print remoteId and exit
-if (!remoteId && !deviceId) {
+if (host && !remoteId && !deviceId) {
   getRemoteId(host)
-    .then(remoteId => console.log(remoteId))
-    .catch(error => console.error(error));
-  process.exit(0);
+    .then(remoteId => {
+      console.log(remoteId);
+      process.exit(0);
+    })
+    .catch(error => {
+      console.error(error);
+      process.exit(1);
+    });
 }
 
 // Print device list and exit
-if (!deviceId) {
+if (host && remoteId && !deviceId) {
   getDevices(host, remoteId)
-    .then(remoteId => console.log(remoteId))
-    .catch(error => console.error(error));
-  process.exit(0);
+    .then(devices => {
+      devices.forEach(device => console.log(device));
+      process.exit(0);
+    })
+    .catch(error => {
+      console.error(error);
+      process.exit(1);
+    });
 }
 
 // Print commands for given device and exit
-else {
+if (host && remoteId && deviceId) {
   getCommands(host, remoteId, deviceId)
-    .then(remoteId => console.log(remoteId))
-    .catch(error => console.error(error));
-  process.exit(0);
+    .then(commands => {
+      commands.forEach(command => console.log(command));
+      process.exit(0);
+    })
+    .catch(error => {
+      console.error(error);
+      process.exit(1);
+    });
 }
