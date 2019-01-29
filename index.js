@@ -24,9 +24,6 @@ function HarmonyTVAccessory(log, config) {
   this.enabledServices = [];
 
   this.hub = new HarmonyHub(config.host, config.remoteId);
-  const inputs = this.commands.filter(({ name }) => {
-    name.startsWith("Input") && name !== "Input";
-  });
 
   // TV
 
@@ -62,17 +59,6 @@ function HarmonyTVAccessory(log, config) {
       console.log(`set Remote Key => setNewValue: ${newValue}`);
       callback(null);
     });
-  this.tvService.setCharacteristic(Characteristic.ActiveIdentifier, 1);
-  this.tvService
-    .getCharacteristic(Characteristic.ActiveIdentifier)
-    .on("set", (newValue, callback) => {
-      const { command } = inputs[newValue];
-      if (this.supportsCommand(command)) {
-        this.sendCommand(command);
-      }
-      callback(null);
-    });
-  this.enabledServices.push(this.tvService);
 
   // Speaker
 
@@ -97,30 +83,66 @@ function HarmonyTVAccessory(log, config) {
 
   // Inputs
 
-  inputs.forEach((input, index) => {
-    const name = input.name.replace(/^Input/, "");
-    const type = (() => {
-      switch (true) {
-        case name.match(/hdmi/i):
-          return Characteristic.InputSourceType.HDMI;
-        case name.match(/ypbpr/i):
-          return Characteristic.InputSourceType.COMPONENT_VIDEO;
-        default:
-          return Characteristic.InputSourceType.OTHER;
-      }
-    })();
-    this[`input${name}Service`] = new Service.InputSource(name, name);
-    this[`input${name}Service`]
-      .setCharacteristic(Characteristic.Identifier, index)
-      .setCharacteristic(Characteristic.ConfiguredName, name)
-      .setCharacteristic(
-        Characteristic.IsConfigured,
-        Characteristic.IsConfigured.CONFIGURED
-      )
-      .setCharacteristic(Characteristic.InputSourceType, type);
-    this.tvService.addLinkedService(this[`input${name}Service`]);
-    this.enabledServices.push(this[`input${name}Service`]);
-  });
+  this.tvService.setCharacteristic(Characteristic.ActiveIdentifier, 1);
+  this.tvService
+    .getCharacteristic(Characteristic.ActiveIdentifier)
+    .on("set", (newValue, callback) => {
+      console.log(`set Active Identifier => setNewValue: ${newValue}`);
+      callback(null);
+    });
+  this.tvService
+    .getCharacteristic(Characteristic.RemoteKey)
+    .on("set", (newValue, callback) => {
+      console.log(`set Remote Key => setNewValue: ${newValue}`);
+      callback(null);
+    });
+
+  this.inputHDMI1Service = new Service.InputSource("hdmi1", "HDMI 1");
+  this.inputHDMI1Service
+    .setCharacteristic(Characteristic.Identifier, 1)
+    .setCharacteristic(Characteristic.ConfiguredName, "HDMI 1")
+    .setCharacteristic(
+      Characteristic.IsConfigured,
+      Characteristic.IsConfigured.CONFIGURED
+    )
+    .setCharacteristic(
+      Characteristic.InputSourceType,
+      Characteristic.InputSourceType.HDMI
+    );
+  this.tvService.addLinkedService(this.inputHDMI1Service);
+  this.enabledServices.push(this.inputHDMI1Service);
+
+  this.inputHDMI2Service = new Service.InputSource("hdmi2", "HDMI 2");
+  this.inputHDMI2Service
+    .setCharacteristic(Characteristic.Identifier, 2)
+    .setCharacteristic(Characteristic.ConfiguredName, "HDMI 2")
+    .setCharacteristic(
+      Characteristic.IsConfigured,
+      Characteristic.IsConfigured.CONFIGURED
+    )
+    .setCharacteristic(
+      Characteristic.InputSourceType,
+      Characteristic.InputSourceType.HDMI
+    );
+  this.tvService.addLinkedService(this.inputHDMI2Service);
+  this.enabledServices.push(this.inputHDMI2Service);
+
+  this.inputHDMI3Service = new Service.InputSource("hdmi3", "HDMI 3");
+  this.inputHDMI3Service
+    .setCharacteristic(Characteristic.Identifier, 3)
+    .setCharacteristic(Characteristic.ConfiguredName, "HDMI 3")
+    .setCharacteristic(
+      Characteristic.IsConfigured,
+      Characteristic.IsConfigured.CONFIGURED
+    )
+    .setCharacteristic(
+      Characteristic.InputSourceType,
+      Characteristic.InputSourceType.HDMI
+    );
+  this.tvService.addLinkedService(this.inputHDMI3Service);
+  this.enabledServices.push(this.inputHDMI3Service);
+
+  this.enabledServices.push(this.tvService);
 }
 
 HarmonyTVAccessory.prototype.getServices = function() {
