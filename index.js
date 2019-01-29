@@ -63,40 +63,49 @@ function HarmonyTVAccessory(log, config) {
     .getCharacteristic(Characteristic.RemoteKey)
     .on("set", (newValue, callback) => {
       switch (true) {
-        case newValue === 4 && this.supportsCommand("DirectionUp"):
+        case newValue === Characteristic.RemoteKey.ARROW_UP &&
+          this.supportsCommand("DirectionUp"):
           this.sendCommand("DirectionUp");
           break;
-        case newValue === 5 && this.supportsCommand("DirectionDown"):
+        case newValue === Characteristic.RemoteKey.ARROW_DOWN &&
+          this.supportsCommand("DirectionDown"):
           this.sendCommand("DirectionDown");
           break;
-        case newValue === 6 && this.supportsCommand("DirectionLeft"):
+        case newValue === Characteristic.RemoteKey.ARROW_LEFT &&
+          this.supportsCommand("DirectionLeft"):
           this.sendCommand("DirectionLeft");
           break;
-        case newValue === 7 && this.supportsCommand("DirectionRight"):
+        case newValue === Characteristic.RemoteKey.ARROW_RIGHT &&
+          this.supportsCommand("DirectionRight"):
           this.sendCommand("DirectionRight");
           break;
-        case newValue === 8 && this.supportsCommand("Select"):
-        case newValue === 11 &&
+        case newValue === Characteristic.RemoteKey.SELECT &&
+          this.supportsCommand("Select"):
+        case newValue === Characteristic.RemoteKey.PLAY_PAUSE &&
           this.supportsCommand("Select") &&
           !this.supportsCommand("Play"):
           this.sendCommand("Select");
           break;
-        case newValue === 11 && this.supportsCommand("Play"):
+        case newValue === Characteristic.RemoteKey.PLAY_PAUSE &&
+          this.supportsCommand("Play"):
           this.sendCommand("Play");
           break;
-        case newValue === 15 && this.supportsCommand("Menu"):
-        case newValue === 9 &&
+        case newValue === Characteristic.RemoteKey.INFORMATION &&
+          this.supportsCommand("Menu"):
+        case newValue === Characteristic.RemoteKey.BACK &&
           !this.supportsCommand("Back") &&
           this.supportsCommand("Menu"):
-        case newValue === 10 &&
+        case newValue === Characteristic.RemoteKey.EXIT &&
           !this.supportsCommand("Home") &&
           this.supportsCommand("Menu"):
           this.sendCommand("Menu");
           break;
-        case newValue === 9 && this.supportsCommand("Back"):
+        case newValue === Characteristic.RemoteKey.BACK &&
+          this.supportsCommand("Back"):
           this.sendCommand("Back");
           break;
-        case newValue === 10 && this.supportsCommand("Home"):
+        case newValue === Characteristic.RemoteKey.EXIT &&
+          this.supportsCommand("Home"):
           this.sendCommand("Home");
           break;
       }
