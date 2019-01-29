@@ -24,6 +24,7 @@ function HarmonyTVAccessory(log, config) {
   this.enabledServices = [];
 
   this.hub = new HarmonyHub(config.host, config.remoteId);
+  this.previousPowerState = null;
   const inputs = config.commands.filter(({ name }) =>
     name.match(/^Input[\w\d]+/)
   );
@@ -50,8 +51,10 @@ function HarmonyTVAccessory(log, config) {
           this.supportsCommand("PowerOn"):
           this.sendCommand("PowerOn");
           break;
-        case this.supportsCommand("PowerToggle"):
+        case newValue !== this.previousPowerState &&
+          this.supportsCommand("PowerToggle"):
           this.sendCommand("PowerToggle");
+          this.previousPowerState = newValue;
           break;
       }
       callback(null);
@@ -110,7 +113,7 @@ function HarmonyTVAccessory(log, config) {
     .setCharacteristic(Characteristic.Active, Characteristic.Active.ACTIVE)
     .setCharacteristic(
       Characteristic.VolumeControlType,
-      Characteristic.VolumeControlType.ABSOLUTE
+      Characteristic.VolumeControlType.RELATIVE
     );
   this.speakerService
     .getCharacteristic(Characteristic.VolumeSelector)
