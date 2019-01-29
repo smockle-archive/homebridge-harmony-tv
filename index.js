@@ -24,6 +24,9 @@ function HarmonyTVAccessory(log, config) {
   this.enabledServices = [];
 
   this.hub = new HarmonyHub(config.host, config.remoteId);
+  const inputs = config.commands.filter(({ name }) =>
+    name.match(/^Input[\w\d]+/)
+  );
 
   // TV
 
@@ -90,57 +93,32 @@ function HarmonyTVAccessory(log, config) {
       console.log(`set Active Identifier => setNewValue: ${newValue}`);
       callback(null);
     });
-  this.tvService
-    .getCharacteristic(Characteristic.RemoteKey)
-    .on("set", (newValue, callback) => {
-      console.log(`set Remote Key => setNewValue: ${newValue}`);
-      callback(null);
-    });
-
-  this.inputHDMI1Service = new Service.InputSource("hdmi1", "HDMI 1");
-  this.inputHDMI1Service
-    .setCharacteristic(Characteristic.Identifier, 1)
-    .setCharacteristic(Characteristic.ConfiguredName, "HDMI 1")
-    .setCharacteristic(
-      Characteristic.IsConfigured,
-      Characteristic.IsConfigured.CONFIGURED
-    )
-    .setCharacteristic(
-      Characteristic.InputSourceType,
-      Characteristic.InputSourceType.HDMI
-    );
-  this.tvService.addLinkedService(this.inputHDMI1Service);
-  this.enabledServices.push(this.inputHDMI1Service);
-
-  this.inputHDMI2Service = new Service.InputSource("hdmi2", "HDMI 2");
-  this.inputHDMI2Service
-    .setCharacteristic(Characteristic.Identifier, 2)
-    .setCharacteristic(Characteristic.ConfiguredName, "HDMI 2")
-    .setCharacteristic(
-      Characteristic.IsConfigured,
-      Characteristic.IsConfigured.CONFIGURED
-    )
-    .setCharacteristic(
-      Characteristic.InputSourceType,
-      Characteristic.InputSourceType.HDMI
-    );
-  this.tvService.addLinkedService(this.inputHDMI2Service);
-  this.enabledServices.push(this.inputHDMI2Service);
-
-  this.inputHDMI3Service = new Service.InputSource("hdmi3", "HDMI 3");
-  this.inputHDMI3Service
-    .setCharacteristic(Characteristic.Identifier, 3)
-    .setCharacteristic(Characteristic.ConfiguredName, "HDMI 3")
-    .setCharacteristic(
-      Characteristic.IsConfigured,
-      Characteristic.IsConfigured.CONFIGURED
-    )
-    .setCharacteristic(
-      Characteristic.InputSourceType,
-      Characteristic.InputSourceType.HDMI
-    );
-  this.tvService.addLinkedService(this.inputHDMI3Service);
-  this.enabledServices.push(this.inputHDMI3Service);
+  inputs.forEach((input, index) => {
+    const name = input.name.replace(/^Input/, "");
+    const type = (() => {
+      switch (true) {
+        case name.match(/hdmi/i):
+          return Characteristic.InputSourceType.HDMI;
+        case name.match(/ypbpr/i):
+          return Characteristic.InputSourceType.COMPONENT_VIDEO;
+        default:
+          return Characteristic.InputSourceType.OTHER;
+      }
+    })();
+    const inputId = name.toLowerCase();
+    const serviceId = `input${name.toUpperCase()}Service`;
+    this[serviceId] = new Service.InputSource(inputId, name);
+    this[serviceId]
+      .setCharacteristic(Characteristic.Identifier, index)
+      .setCharacteristic(Characteristic.ConfiguredName, name)
+      .setCharacteristic(
+        Characteristic.IsConfigured,
+        Characteristic.IsConfigured.CONFIGURED
+      )
+      .setCharacteristic(Characteristic.InputSourceType, type);
+    this.tvService.addLinkedService(this[serviceId]);
+    this.enabledServices.push(this[serviceId]);
+  });
 
   this.enabledServices.push(this.tvService);
 }
