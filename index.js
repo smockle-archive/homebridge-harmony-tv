@@ -40,14 +40,14 @@ function HarmonyTVAccessory(log, config) {
     .getCharacteristic(Characteristic.Active)
     .on("set", (newValue, callback) => {
       switch (true) {
-        case this.supportsCommand("PowerOff") &&
-          this.supportsCommand("PowerOn") &&
-          newValue === 0:
+        case newValue === 0 &&
+          this.supportsCommand("PowerOff") &&
+          this.supportsCommand("PowerOn"):
           this.sendCommand("PowerOff");
           break;
-        case this.supportsCommand("PowerOff") &&
-          this.supportsCommand("PowerOn") &&
-          newValue === 1:
+        case newValue === 1 &&
+          this.supportsCommand("PowerOff") &&
+          this.supportsCommand("PowerOn"):
           this.sendCommand("PowerOn");
           break;
         case this.supportsCommand("PowerToggle"):
@@ -60,32 +60,41 @@ function HarmonyTVAccessory(log, config) {
     .getCharacteristic(Characteristic.RemoteKey)
     .on("set", (newValue, callback) => {
       switch (true) {
-        case this.supportsCommand("DirectionUp") && newValue === 4:
+        case newValue === 4 && this.supportsCommand("DirectionUp"):
           this.sendCommand("DirectionUp");
           break;
-        case this.supportsCommand("DirectionDown") && newValue === 5:
+        case newValue === 5 && this.supportsCommand("DirectionDown"):
           this.sendCommand("DirectionDown");
           break;
-        case this.supportsCommand("DirectionLeft") && newValue === 6:
+        case newValue === 6 && this.supportsCommand("DirectionLeft"):
           this.sendCommand("DirectionLeft");
           break;
-        case this.supportsCommand("DirectionRight") && newValue === 7:
+        case newValue === 7 && this.supportsCommand("DirectionRight"):
           this.sendCommand("DirectionRight");
           break;
-        case this.supportsCommand("Select") && newValue === 8:
+        case newValue === 8 && this.supportsCommand("Select"):
+        case newValue === 11 &&
+          this.supportsCommand("Select") &&
+          !this.supportsCommand("Play"):
           this.sendCommand("Select");
           break;
-        case this.supportsCommand("Back") && newValue === 9:
-          this.sendCommand("Back");
-          break;
-        case this.supportsCommand("Home") && newValue === 10:
-          this.sendCommand("Home");
-          break;
-        case this.supportsCommand("Play") && newValue === 11:
+        case newValue === 11 && this.supportsCommand("Play"):
           this.sendCommand("Play");
           break;
-        case this.supportsCommand("Menu") && newValue === 15:
+        case newValue === 15 && this.supportsCommand("Menu"):
+        case newValue === 9 &&
+          !this.supportsCommand("Back") &&
+          this.supportsCommand("Menu"):
+        case newValue === 10 &&
+          !this.supportsCommand("Home") &&
+          this.supportsCommand("Menu"):
           this.sendCommand("Menu");
+          break;
+        case newValue === 9 && this.supportsCommand("Back"):
+          this.sendCommand("Back");
+          break;
+        case newValue === 10 && this.supportsCommand("Home"):
+          this.sendCommand("Home");
           break;
       }
       callback(null);

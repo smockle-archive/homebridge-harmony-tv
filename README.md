@@ -55,6 +55,30 @@ npm install -g homebridge-harmony-tv-smockle-temp
       "name": "VolumeUp",
       "label": "Volume Up"
     }, {
+      "action": "{\"command\":\"DirectionDown\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
+      "name": "DirectionDown",
+      "label": "Direction Down"
+    }, {
+      "action": "{\"command\":\"DirectionLeft\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
+      "name": "DirectionLeft",
+      "label": "Direction Left"
+    }, {
+      "action": "{\"command\":\"DirectionRight\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
+      "name": "DirectionRight",
+      "label": "Direction Right"
+    }, {
+      "action": "{\"command\":\"DirectionUp\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
+      "name": "DirectionUp",
+      "label": "Direction Up"
+    }, {
+      "action": "{\"command\":\"Select\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
+      "name": "Select",
+      "label": "Select"
+    }, {
+      "action": "{\"command\":\"Menu\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
+      "name": "Menu",
+      "label": "Menu"
+    }, {
       "action": "{\"command\":\"InputHdmi1\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
       "name": "InputHdmi1",
       "label": "InputHdmi1"
