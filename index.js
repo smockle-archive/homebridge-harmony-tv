@@ -200,6 +200,8 @@ HarmonyTVAccessory.prototype.supportsCommand = function(command) {
 HarmonyTVAccessory.prototype.sendSpeakerCommand = function(command) {
   return this.hub.connect().then(() => {
     this.hub.sendCommand(command, this.speakerId);
+    this.hub.sendCommand(command, this.speakerId);
+    this.hub.sendCommand(command, this.speakerId);
     setTimeout(() => this.hub.disconnect(), 300);
   });
 };
