@@ -59,7 +59,35 @@ function HarmonyTVAccessory(log, config) {
   this.tvService
     .getCharacteristic(Characteristic.RemoteKey)
     .on("set", (newValue, callback) => {
-      console.log(`set Remote Key => setNewValue: ${newValue}`);
+      switch (true) {
+        case this.supportsCommand("DirectionUp") && newValue === 4:
+          this.sendCommand("DirectionUp");
+          break;
+        case this.supportsCommand("DirectionDown") && newValue === 5:
+          this.sendCommand("DirectionDown");
+          break;
+        case this.supportsCommand("DirectionLeft") && newValue === 6:
+          this.sendCommand("DirectionLeft");
+          break;
+        case this.supportsCommand("DirectionRight") && newValue === 7:
+          this.sendCommand("DirectionRight");
+          break;
+        case this.supportsCommand("Select") && newValue === 8:
+          this.sendCommand("Select");
+          break;
+        case this.supportsCommand("Back") && newValue === 9:
+          this.sendCommand("Back");
+          break;
+        case this.supportsCommand("Home") && newValue === 10:
+          this.sendCommand("Home");
+          break;
+        case this.supportsCommand("Play") && newValue === 11:
+          this.sendCommand("Play");
+          break;
+        case this.supportsCommand("Menu") && newValue === 15:
+          this.sendCommand("Menu");
+          break;
+      }
       callback(null);
     });
 
