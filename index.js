@@ -24,6 +24,9 @@ function HarmonyTVAccessory(log, config) {
   this.enabledServices = [];
 
   this.hub = new HarmonyHub(config.host, config.remoteId);
+  const inputs = this.commands.filter(({ name }) => {
+    name.startsWith("Input") && name !== "Input";
+  });
 
   // TV
 
@@ -59,6 +62,16 @@ function HarmonyTVAccessory(log, config) {
       console.log(`set Remote Key => setNewValue: ${newValue}`);
       callback(null);
     });
+  this.tvService.setCharacteristic(Characteristic.ActiveIdentifier, 1);
+  this.tvService
+    .getCharacteristic(Characteristic.ActiveIdentifier)
+    .on("set", (newValue, callback) => {
+      const { command } = inputs[newValue];
+      if (this.supportsCommand(command)) {
+        this.sendCommand(command);
+      }
+      callback(null);
+    });
   this.enabledServices.push(this.tvService);
 
   // Speaker
@@ -84,19 +97,6 @@ function HarmonyTVAccessory(log, config) {
 
   // Inputs
 
-  const inputs = this.commands.filter(({ name }) => {
-    name.startsWith("Input") && name !== "Input";
-  });
-  this.tvService.setCharacteristic(Characteristic.ActiveIdentifier, 1);
-  this.tvService
-    .getCharacteristic(Characteristic.ActiveIdentifier)
-    .on("set", (newValue, callback) => {
-      const { command } = inputs[newValue];
-      if (this.supportsCommand(command)) {
-        this.sendCommand(command);
-      }
-      callback(null);
-    });
   inputs.forEach((input, index) => {
     const name = input.name.replace(/^Input/, "");
     const type = (() => {
