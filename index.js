@@ -20,7 +20,6 @@ function HarmonyTVAccessory(log, config) {
   this.config = config;
   this.name = config.name;
   this.deviceId = config.deviceId;
-  this.speakerId = config.speakerId || config.deviceId;
   this.commands = config.commands;
   this.enabledServices = [];
 
@@ -131,11 +130,11 @@ function HarmonyTVAccessory(log, config) {
       switch (true) {
         case newValue === Characteristic.VolumeSelector.INCREMENT &&
           this.supportsCommand("VolumeUp"):
-          this.sendSpeakerCommand("VolumeUp");
+          this.sendCommand("VolumeUp");
           break;
         case newValue === Characteristic.VolumeSelector.DECREMENT &&
           this.supportsCommand("VolumeDown"):
-          this.sendSpeakerCommand("VolumeDown");
+          this.sendCommand("VolumeDown");
           break;
       }
       callback(null);
@@ -197,18 +196,11 @@ HarmonyTVAccessory.prototype.supportsCommand = function(command) {
   return this.commands.some(({ name }) => name === command);
 };
 
-HarmonyTVAccessory.prototype.sendSpeakerCommand = function(command) {
-  return this.hub.connect().then(() => {
-    this.hub.sendCommand(command, this.speakerId);
-    this.hub.sendCommand(command, this.speakerId);
-    this.hub.sendCommand(command, this.speakerId);
-    setTimeout(() => this.hub.disconnect(), 300);
-  });
-};
-
 HarmonyTVAccessory.prototype.sendCommand = function(command) {
+  const { action } = this.commands.find({ name } === command);
+  const { deviceId } = JSON.parse(action);
   return this.hub.connect().then(() => {
-    this.hub.sendCommand(command, this.deviceId);
+    this.hub.sendCommand(command, deviceId);
     setTimeout(() => this.hub.disconnect(), 300);
   });
 };
