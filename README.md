@@ -87,7 +87,7 @@ npm install -g homebridge-harmony-tv-smockle
       "name": "InputHdmi2",
       "label": "InputHdmi2"
     }]
-  }],
+  }]
 }
 ```
 
