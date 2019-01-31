@@ -197,7 +197,7 @@ HarmonyTVAccessory.prototype.supportsCommand = function(command) {
 };
 
 HarmonyTVAccessory.prototype.sendCommand = function(command) {
-  const { action } = this.commands.find({ name } === command);
+  const { action } = this.commands.find(({ name }) => name === command);
   const { deviceId } = JSON.parse(action);
   return this.hub.connect().then(() => {
     this.hub.sendCommand(command, deviceId);
