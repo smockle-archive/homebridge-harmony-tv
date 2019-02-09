@@ -5,7 +5,11 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/smockle/homebridge-harmony-tv/badge.svg?targetFile=package.json)](https://snyk.io/test/github/smockle/homebridge-harmony-tv?targetFile=package.json)
 [![Greenkeeper badge](https://badges.greenkeeper.io/smockle/homebridge-harmony-tv.svg)](https://greenkeeper.io/)
 
-Creates a HomeKit TV accessory for a Logitech Harmony-controlled TV
+Creates a HomeKit TV accessory for a Logitech Harmony-controlled TV.
+
+# Use Case
+
+The target use case of this plugin is “control a non-smart TV in HomeKit via a Harmony Hub”, not “use HomeKit as an interface for all Harmony features”. If you’d like Harmony Activites to show up as inputs in HomeKit, check out the [`homebridge-harmony` plugin](https://github.com/nicoduj/homebridge-harmony).
 
 # Installation
 
@@ -19,11 +23,11 @@ npm install -g homebridge-harmony-tv-smockle
 
 1. Find the static IP address of your Harmony Hub. In the plugin [configuration](#Configuration), this is the `"host"` value.
 
-2. Run `node scripts/hubinfo.js $HOST` to find the unique identifier of your Harmony Hub. In the plugin [configuration](#Configuration), this is the `"remoteId"` value.
+2. Run `node "$(npm root -g)/homebridge-harmony-tv-smockle/scripts/hubinfo.js" $HOST` to find the unique identifier of your Harmony Hub. In the plugin [configuration](#Configuration), this is the `"remoteId"` value.
 
-3. Run `node scripts/hubinfo.js $HOST $REMOTE_ID` to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
+3. Run `node "$(npm root -g)/homebridge-harmony-tv-smockle/scripts/hubinfo.js" $HOST $REMOTE_ID` to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
 
-4. Run `node scripts/hubinfo.js $HOST $REMOTE_ID $DEVICE_ID` to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
+4. Run `node "$(npm root -g)/homebridge-harmony-tv-smockle/scripts/hubinfo.js" $HOST $REMOTE_ID $DEVICE_ID` to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
 
 # Configuration
 
