@@ -249,8 +249,16 @@ HarmonyTVAccessory.prototype.sendCommand = function(commandName) {
     }
     return command.action;
   })();
-  return this.hub.connect(this.config.host).then(() => {
-    this.hub.sendCommands(action);
-    setTimeout(() => this.hub.end(), 300);
+  return new Promise((resolve, reject) => {
+    this.hub
+      .connect(this.config.host)
+      .then(() => {
+        this.hub.sendCommands(action);
+        setTimeout(() => {
+          this.hub.end();
+          return resolve();
+        }, 300);
+      })
+      .catch(error => reject(error));
   });
 };
