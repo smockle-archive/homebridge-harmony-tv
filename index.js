@@ -25,7 +25,7 @@ function HarmonyTVAccessory(log, config) {
 
   this.hub = new Harmony();
   this.previousPowerState = null;
-  if (!config.commands) {
+  if (!config.commands || !(config.commands instanceof Array)) {
     throw new Error(
       `Missing an array of 'commands'. Check your configuration file. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#configuration.`
     );
