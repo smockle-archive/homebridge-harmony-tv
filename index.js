@@ -227,18 +227,20 @@ HarmonyTVAccessory.prototype.supportsCommand = function(command) {
 HarmonyTVAccessory.prototype.sendCommand = function(commandName) {
   const command = this.commands.find(({ name }) => name === commandName);
   if (!command) {
-    this.log.error(
-      `Command ${commandName} not found for device with id ${
-        this.deviceId
-      }. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#setup.`
+    return Promise.reject(
+      new Error(
+        `Command ${commandName} not found for device with id ${
+          this.deviceId
+        }. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#setup.`
+      )
     );
-    return;
   }
   if (!command.action) {
-    this.log.error(
-      `Command ${commandName} is missing a value for 'action'. Check your configuration file. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#configuration.`
+    return Promise.reject(
+      new Error(
+        `Command ${commandName} is missing a value for 'action'. Check your configuration file. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#configuration.`
+      )
     );
-    return;
   }
   const action = (() => {
     if (typeof command.action !== "string") {
