@@ -1,5 +1,5 @@
 // @ts-check
-const { HarmonyHub } = require("harmonyhub-api");
+const Harmony = require("harmony-websocket");
 let Service, Characteristic;
 
 module.exports = function(homebridge) {
@@ -23,8 +23,13 @@ function HarmonyTVAccessory(log, config) {
   this.commands = config.commands;
   this.enabledServices = [];
 
-  this.hub = new HarmonyHub(config.host, config.remoteId);
+  this.hub = new Harmony();
   this.previousPowerState = null;
+  if (!config.commands) {
+    throw new Error(
+      `Missing an array of 'commands'. Check your configuration file. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#configuration.`
+    );
+  }
   const inputs = config.commands.filter(({ name }) =>
     name.match(/^Input[\w\d]+/)
   );
@@ -196,11 +201,35 @@ HarmonyTVAccessory.prototype.supportsCommand = function(command) {
   return this.commands.some(({ name }) => name === command);
 };
 
-HarmonyTVAccessory.prototype.sendCommand = function(command) {
-  const { action } = this.commands.find(({ name }) => name === command);
-  const { deviceId } = JSON.parse(action);
-  return this.hub.connect().then(() => {
-    this.hub.sendCommand(command, deviceId);
-    setTimeout(() => this.hub.disconnect(), 300);
-  });
+HarmonyTVAccessory.prototype.sendCommand = function(commandName) {
+  const command = this.commands.find(({ name }) => name === commandName);
+  if (!command) {
+    console.error(
+      `Command ${commandName} not found for device with id ${
+        this.deviceId
+      }. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#setup.`
+    );
+    return;
+  }
+  if (!command.action) {
+    console.error(
+      `Command ${commandName} is missing a value for 'action'. Check your configuration file. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#configuration.`
+    );
+  }
+  const action = (() => {
+    if (typeof command.action !== "string") {
+      console.warn(
+        `Command ${commandName} has an unexpected value for 'action'. Check your configuration file. The current value will be converted to a serialized JSON string. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#configuration.`
+      );
+      return JSON.stringify(command.action);
+    }
+    return command.action;
+  })();
+  return this.hub
+    .connect(this.config.host)
+    .then(() => {
+      this.hub.sendCommands(action);
+      setTimeout(() => this.hub.end(), 300);
+    })
+    .catch(error => console.error(error));
 };
