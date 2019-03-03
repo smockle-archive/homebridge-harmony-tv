@@ -60,6 +60,11 @@ function HarmonyTVAccessory(log, config) {
             return this.sendCommand("PowerToggle").then(
               () => (this.previousPowerState = newValue)
             );
+          case newValue === this.previousPowerState:
+            return new Promise(resolve => {
+              this.log.debug("Ignored duplicate power command");
+              resolve();
+            });
           default:
             return Promise.reject(new Error("Failed to send power command"));
         }
