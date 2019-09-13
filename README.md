@@ -6,6 +6,10 @@
 
 Creates a HomeKit TV accessory for a Logitech Harmony-controlled TV.
 
+# Update 2019-09-12
+
+**I don’t use a Logitech Harmoney Hub anymore, and I’m unlikely to undertake any new development on this plugin in the near future.** For now, new patch versions will continue to be published automatically when this plugin’s depedencies are updated. Please open an issue if you are interested in maintaining this plugin.
+
 # Use Case
 
 The target use case of this plugin is “control a non-smart TV in HomeKit via a Harmony Hub”, not “use HomeKit as an interface for all Harmony features”. If you’d like Harmony Activites to show up as inputs in HomeKit, check out the [`homebridge-harmony` plugin](https://github.com/nicoduj/homebridge-harmony).
