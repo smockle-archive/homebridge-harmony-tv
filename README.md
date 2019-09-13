@@ -8,7 +8,7 @@ Creates a HomeKit TV accessory for a Logitech Harmony-controlled TV.
 
 # Update 2019-09-12
 
-**I don’t use a Logitech Harmoney Hub anymore, and I’m unlikely to undertake any new development on this plugin in the near future.** For now, new patch versions will continue to be published automatically when this plugin’s depedencies are updated. Please open an issue if you are interested in maintaining this plugin.
+**I don’t use a Logitech Harmony Hub anymore, and I’m unlikely to undertake any new development on this plugin in the near future.** For now, new patch versions will continue to be published automatically when this plugin’s depedencies are updated. Please open an issue if you are interested in maintaining this plugin.
 
 # Use Case
 
