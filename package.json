@@ -4,8 +4,7 @@
   "version": "2.0.24",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Info: no test specified\" && exit 0",
-    "_version": "bash scripts/version.sh"
+    "test": "echo \"Info: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",

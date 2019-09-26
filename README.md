@@ -1,7 +1,7 @@
 # Homebridge Harmony TV
 
 [![npm](https://img.shields.io/npm/v/homebridge-harmony-tv-smockle.svg)](https://www.npmjs.com/package/homebridge-harmony-tv-smockle)
-[![Build Status](https://travis-ci.com/smockle/homebridge-harmony-tv.svg?branch=master)](https://travis-ci.com/smockle/homebridge-harmony-tv)
+[![Publish Workflow](https://github.com/smockle/homebridge-harmony-tv/workflows/Publish/badge.svg)](https://github.com/smockle/homebridge-harmony-tv/actions)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=smockle/homebridge-harmony-tv)](https://dependabot.com)
 
 Creates a HomeKit TV accessory for a Logitech Harmony-controlled TV.
@@ -26,9 +26,9 @@ npm install -g homebridge-harmony-tv-smockle
 
 1. Find the static IP address of your Harmony Hub. In the plugin [configuration](#Configuration), this is the `"host"` value.
 
-2. Run `node "$(npm root -g)/homebridge-harmony-tv-smockle/scripts/hubinfo.js" $HOST` to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
+2. Run `node "$(npm root -g)/homebridge-harmony-tv-smockle/script/hubinfo.js" $HOST` to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
 
-3. Run `node "$(npm root -g)/homebridge-harmony-tv-smockle/scripts/hubinfo.js" $HOST $DEVICE_ID` to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
+3. Run `node "$(npm root -g)/homebridge-harmony-tv-smockle/script/hubinfo.js" $HOST $DEVICE_ID` to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
 
 # Configuration
 

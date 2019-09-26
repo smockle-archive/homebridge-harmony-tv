@@ -1,5 +1,2 @@
 .github
 node_modules
-scripts/*
-!scripts/hubinfo.js
-.travis.yml
