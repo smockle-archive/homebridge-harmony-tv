@@ -234,9 +234,7 @@ HarmonyTVAccessory.prototype.sendCommand = function(commandName) {
   if (!command) {
     return Promise.reject(
       new Error(
-        `Command ${commandName} not found for device with id ${
-          this.deviceId
-        }. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#setup.`
+        `Command ${commandName} not found for device with id ${this.deviceId}. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#setup.`
       )
     );
   }
@@ -260,9 +258,9 @@ HarmonyTVAccessory.prototype.sendCommand = function(commandName) {
     this.hub
       .connect(this.config.host)
       .then(() => {
-        this.hub.sendCommands(action);
+        this.hub.sendCommand(action);
         setTimeout(() => {
-          this.hub.end();
+          this.hub.close();
           return resolve();
         }, 300);
       })
