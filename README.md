@@ -19,16 +19,16 @@ The target use case of this plugin is “control a non-smart TV in HomeKit via a
 Review the [Installation](https://github.com/nfarina/homebridge#installation) section of the Homebridge README.
 
 ```Bash
-npm install -g homebridge-harmony-tv-smockle
+yarn global add homebridge-harmony-tv-smockle
 ```
 
 # Setup
 
 1. Find the static IP address of your Harmony Hub. In the plugin [configuration](#Configuration), this is the `"host"` value.
 
-2. Run `node "$(npm root -g)/homebridge-harmony-tv-smockle/script/hubinfo.js" $HOST` to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
+2. Run `node "$(yarn global dir)/homebridge-harmony-tv-smockle/script/hubinfo.js" $HOST` to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
 
-3. Run `node "$(npm root -g)/homebridge-harmony-tv-smockle/script/hubinfo.js" $HOST $DEVICE_ID` to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
+3. Run `node "$(yarn global dir)/homebridge-harmony-tv-smockle/script/hubinfo.js" $HOST $DEVICE_ID` to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
 
 # Configuration
 
