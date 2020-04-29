@@ -1,9 +1,9 @@
-#!/usr/bin/env node
-// @ts-check
-const { getDevices, getCommands } = require("../lib/hubinfo");
+#!/usr/bin/env node --experimental-modules --es-module-specifier-resolution=node --no-warnings
 
-const host = process.argv.slice(2)[0];
-const deviceId = process.argv.slice(2)[1];
+import { getCommands, getDevices } from "../lib/hubinfo";
+
+const host: string | undefined = process.argv.slice(2)[0];
+const deviceId: string | undefined = process.argv.slice(2)[1];
 
 // Print help and exit
 if (!host && !deviceId) {
@@ -24,7 +24,7 @@ if (host && !deviceId) {
   (async () => {
     try {
       const devices = await getDevices(host);
-      devices.forEach(device => console.log(device));
+      devices.forEach((device) => console.log(device));
       process.exit(0);
     } catch (error) {
       console.error(error);
@@ -51,8 +51,8 @@ if (host && deviceId) {
             ? command.label.replace(" ", "")
             : command.action.command;
           return commands.concat([{ action, name, label: command.label }]);
-        }, [])
-        .forEach(command => console.log(command));
+        }, [] as { action: string; name: string; label: string }[])
+        .forEach((command) => console.log(command));
       process.exit(0);
     } catch (error) {
       console.error(error);
