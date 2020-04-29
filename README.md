@@ -26,9 +26,9 @@ yarn global add homebridge-harmony-tv-smockle
 
 1. Find the static IP address of your Harmony Hub. In the plugin [configuration](#Configuration), this is the `"host"` value.
 
-2. Run `node "$(yarn global dir)/homebridge-harmony-tv-smockle/script/hubinfo.js" $HOST` to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
+2. Run `hubinfo $HOST` (or `$(yarn global dir)/node_modules/homebridge-harmony-tv-smockle/dist/bin/hubinfo.js $HOST`, if you don’t include globally-installed packages in `$PATH`) to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
 
-3. Run `node "$(yarn global dir)/homebridge-harmony-tv-smockle/script/hubinfo.js" $HOST $DEVICE_ID` to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
+3. Run `hubinfo $HOST $DEVICE_ID` (or `$(yarn global dir)/node_modules/homebridge-harmony-tv-smockle/dist/bin/hubinfo.js $HOST $DEVICE_ID`, if you don’t include globally-installed packages in `$PATH`) to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
 
 # Configuration
 
