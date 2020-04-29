@@ -1,7 +1,6 @@
-// @ts-check
-const Harmony = require("harmony-websocket");
+import Harmony from "harmony-websocket";
 
-async function getDevices(host) {
+export async function getDevices(host: string) {
   const hub = new Harmony();
   try {
     await hub.connect(host);
@@ -14,7 +13,7 @@ async function getDevices(host) {
   }
 }
 
-async function getCommands(host, deviceId) {
+export async function getCommands(host: string, deviceId: string) {
   const hub = new Harmony();
   try {
     await hub.connect(host);
@@ -26,8 +25,3 @@ async function getCommands(host, deviceId) {
     throw error;
   }
 }
-
-module.exports = {
-  getDevices,
-  getCommands
-};
