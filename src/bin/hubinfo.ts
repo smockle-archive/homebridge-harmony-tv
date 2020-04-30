@@ -1,4 +1,4 @@
-#!/usr/bin/env node --experimental-modules --es-module-specifier-resolution=node --no-warnings
+#!/usr/bin/env node
 
 import { getCommands, getDevices } from "../lib/hubinfo";
 
