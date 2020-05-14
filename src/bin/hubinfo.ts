@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import { getCommands, getDevices } from "../lib/hubinfo";
+import { getRemoteId, getCommands, getDevices } from "../lib/hubinfo";
 
 const host: string | undefined = process.argv.slice(2)[0];
-const deviceId: string | undefined = process.argv.slice(2)[1];
+const remoteId: string | undefined = process.argv.slice(2)[1];
+const deviceId: string | undefined = process.argv.slice(2)[2];
 
 // Print help and exit
 if (!host && !deviceId) {
@@ -11,19 +12,34 @@ if (!host && !deviceId) {
   Lists unique identifier for a Harmony Hub, connected devices and supported commands
   
   Usage:
-    $ hubinfo host [deviceId]
+    $ hubinfo host [remoteId] [deviceId]
   
   Examples:
     $ hubinfo 192.168.1.10
-    $ hubinfo 192.168.1.10 72306838`);
+    $ hubinfo 192.168.1.10 22571993
+    $ hubinfo 192.168.1.10 22571993 72306838`);
   process.exit(0);
 }
 
-// Print device list and exit
-if (host && !deviceId) {
+// Print remote identifier and exit
+if (host && !remoteId && !deviceId) {
   (async () => {
     try {
-      const devices = await getDevices(host);
+      const remoteId = await getRemoteId(host);
+      console.log(remoteId);
+      process.exit(0);
+    } catch (error) {
+      console.error(error);
+      process.exit(1);
+    }
+  })();
+}
+
+// Print device list and exit
+if (host && remoteId && !deviceId) {
+  (async () => {
+    try {
+      const devices = await getDevices(host, remoteId);
       devices.forEach((device) => console.log(device));
       process.exit(0);
     } catch (error) {
@@ -34,10 +50,10 @@ if (host && !deviceId) {
 }
 
 // Print commands for given device and exit
-if (host && deviceId) {
+if (host && remoteId && deviceId) {
   (async () => {
     try {
-      const commands = await getCommands(host, deviceId);
+      const commands = await getCommands(host, remoteId, deviceId);
       commands
         .reduce((commands, command) => {
           if (!command.action || !command.label) {
@@ -52,7 +68,9 @@ if (host && deviceId) {
             : command.action.command;
           return commands.concat([{ action, name, label: command.label }]);
         }, [] as { action: string; name: string; label: string }[])
-        .forEach((command) => console.log(command));
+        .forEach((command: { action: string; name: string; label: string }) =>
+          console.log(command)
+        );
       process.exit(0);
     } catch (error) {
       console.error(error);

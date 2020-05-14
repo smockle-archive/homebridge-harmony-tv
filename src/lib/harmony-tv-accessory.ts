@@ -1,4 +1,4 @@
-import Harmony from "harmony-websocket";
+import { HarmonyHub } from "harmonyhub-api";
 import {
   AccessoryConfig,
   Characteristic,
@@ -13,21 +13,23 @@ export class HarmonyTVAccessory {
   log: Logging;
   config: AccessoryConfig;
   name: string;
+  remoteId: string;
   deviceId: string;
   commands: { action: string; name: string }[];
   enabledServices: Service[];
-  hub: Harmony;
+  hub: HarmonyHub;
   previousPowerState: unknown;
 
   constructor(log: Logging, config: AccessoryConfig) {
     this.log = log;
     this.config = config;
     this.name = config.name;
+    this.remoteId = config.remoteId;
     this.deviceId = config.deviceId;
     this.commands = config.commands;
     this.enabledServices = [];
 
-    this.hub = new Harmony();
+    this.hub = new HarmonyHub(config.host, config.remoteId);
     this.previousPowerState = null;
     if (!config.commands || !(config.commands instanceof Array)) {
       throw new Error(
@@ -281,26 +283,19 @@ export class HarmonyTVAccessory {
         )
       );
     }
-    const action = (() => {
-      if (typeof command.action !== "string") {
-        this.log.warn(
-          `Command ${commandName} has an unexpected value for 'action'. Check your configuration file. The current value will be converted to a serialized JSON string. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#configuration.`
-        );
-        return JSON.stringify(command.action);
-      }
-      return command.action;
-    })();
     return new Promise((resolve, reject) => {
       this.hub
-        .connect(this.config.host)
+        .connect()
         .then(() => {
-          this.hub.sendCommand(action);
-          setTimeout(() => {
-            this.hub.close();
-            return resolve();
-          }, 300);
+          this.hub.sendCommand(commandName, this.deviceId);
         })
-        .catch((error) => reject(error));
+        .then(() => {
+          this.hub.disconnect();
+        })
+        .then(() => {
+          resolve();
+        })
+        .catch((error: Error) => reject(error));
     });
   }
 }

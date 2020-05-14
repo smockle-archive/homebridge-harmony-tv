@@ -26,9 +26,11 @@ yarn global add homebridge-harmony-tv-smockle
 
 1. Find the static IP address of your Harmony Hub. In the plugin [configuration](#Configuration), this is the `"host"` value.
 
-2. Run `hubinfo $HOST` (or `$(yarn global dir)/node_modules/homebridge-harmony-tv-smockle/dist/bin/hubinfo.js $HOST`, if you don’t include globally-installed packages in `$PATH`) to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
+2. Run `hubinfo $HOST` (or `$(yarn global dir)/node_modules/homebridge-harmony-tv-smockle/dist/bin/hubinfo.js $HOST`, if you don’t include globally-installed packages in `$PATH`) to find the unique identifier of your Harmony Hub. In the plugin [configuration](#Configuration), this is the `"remoteId"` value.
 
-3. Run `hubinfo $HOST $DEVICE_ID` (or `$(yarn global dir)/node_modules/homebridge-harmony-tv-smockle/dist/bin/hubinfo.js $HOST $DEVICE_ID`, if you don’t include globally-installed packages in `$PATH`) to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
+3. Run `hubinfo $HOST $REMOTE_ID` (or `$(yarn global dir)/node_modules/homebridge-harmony-tv-smockle/dist/bin/hubinfo.js $HOST $REMOTE_ID`, if you don’t include globally-installed packages in `$PATH`) to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
+
+4. Run `hubinfo $HOST $REMOTE_ID $DEVICE_ID` (or `$(yarn global dir)/node_modules/homebridge-harmony-tv-smockle/dist/bin/hubinfo.js $HOST $REMOTE_ID $DEVICE_ID`, if you don’t include globally-installed packages in `$PATH`) to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
 
 # Configuration
 
@@ -45,6 +47,7 @@ yarn global add homebridge-harmony-tv-smockle
     "accessory": "HarmonyTV",
     "name": "Living Room TV",
     "host": "192.168.1.10",
+    "remoteId": "22571993",
     "deviceId": "72306838",
     "commands": [{
       "action": "{\"command\":\"PowerToggle\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",

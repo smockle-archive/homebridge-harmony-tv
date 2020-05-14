@@ -1,7 +1,7 @@
 {
   "name": "homebridge-harmony-tv-smockle",
   "description": "Creates a HomeKit TV accessory for a Logitech Harmony-controlled TV",
-  "version": "3.0.5",
+  "version": "4.0.0",
   "files": [
     "dist"
   ],
@@ -34,11 +34,11 @@
     "node": ">=10.0.0"
   },
   "dependencies": {
-    "harmony-websocket": "^1.5.0",
-    "homebridge": "^1.0.0"
+    "harmonyhub-api": "^1.0.8"
   },
   "devDependencies": {
-    "@types/node": "^13.13.4",
-    "typescript": "^3.8.3"
+    "@types/node": "^14.0.1",
+    "homebridge": "^1.0.4",
+    "typescript": "^3.9.2"
   }
 }
