@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import { getRemoteId, getCommands, getDevices } from "../lib/hubinfo";
+import { Hub, getHub } from "../lib/hub";
+const { getRemoteId, getDevices } = Hub;
 
 const host: string | undefined = process.argv.slice(2)[0];
 const remoteId: string | undefined = process.argv.slice(2)[1];
@@ -53,7 +54,8 @@ if (host && remoteId && !deviceId) {
 if (host && remoteId && deviceId) {
   (async () => {
     try {
-      const commands = await getCommands(host, remoteId, deviceId);
+      const hub = getHub(host, remoteId, deviceId);
+      const commands = await hub.getCommands();
       commands
         .reduce((commands, command) => {
           if (!command.action || !command.label) {
@@ -63,9 +65,10 @@ if (host && remoteId && deviceId) {
             typeof command.action !== "string"
               ? JSON.stringify(command.action)
               : command.action;
-          const name = !command.action.command
-            ? command.label.replace(" ", "")
-            : command.action.command;
+          const name =
+            typeof command.action === "string"
+              ? command.label.replace(" ", "")
+              : command.action.command;
           return commands.concat([{ action, name, label: command.label }]);
         }, [] as { action: string; name: string; label: string }[])
         .forEach((command: { action: string; name: string; label: string }) =>
