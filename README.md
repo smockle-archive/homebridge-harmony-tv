@@ -30,8 +30,6 @@ yarn global add homebridge-harmony-tv-smockle
 
 3. Run `hubinfo $HOST $REMOTE_ID` (or `$(yarn global dir)/node_modules/homebridge-harmony-tv-smockle/dist/bin/hubinfo.js $HOST $REMOTE_ID`, if you don’t include globally-installed packages in `$PATH`) to find the unique identifier of the Harmony Hub-connected TV you want to control. In the plugin [configuration](#Configuration), this is the `"deviceId"` value.
 
-4. Run `hubinfo $HOST $REMOTE_ID $DEVICE_ID` (or `$(yarn global dir)/node_modules/homebridge-harmony-tv-smockle/dist/bin/hubinfo.js $HOST $REMOTE_ID $DEVICE_ID`, if you don’t include globally-installed packages in `$PATH`) to find the list of commands supported by your Harmony Hub-connected TV. In the plugin [configuration](#Configuration), this is the `"commands"` value.
-
 # Configuration
 
 ```JSON
@@ -48,52 +46,7 @@ yarn global add homebridge-harmony-tv-smockle
     "name": "Living Room TV",
     "host": "192.168.1.10",
     "remoteId": "22571993",
-    "deviceId": "72306838",
-    "commands": [{
-      "action": "{\"command\":\"PowerToggle\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
-      "name": "PowerToggle",
-      "label": "Power Toggle"
-    }, {
-      "action": "{\"command\":\"VolumeDown\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
-      "name": "VolumeDown",
-      "label": "Volume Down"
-    }, {
-      "action": "{\"command\":\"VolumeUp\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
-      "name": "VolumeUp",
-      "label": "Volume Up"
-    }, {
-      "action": "{\"command\":\"DirectionDown\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
-      "name": "DirectionDown",
-      "label": "Direction Down"
-    }, {
-      "action": "{\"command\":\"DirectionLeft\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
-      "name": "DirectionLeft",
-      "label": "Direction Left"
-    }, {
-      "action": "{\"command\":\"DirectionRight\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
-      "name": "DirectionRight",
-      "label": "Direction Right"
-    }, {
-      "action": "{\"command\":\"DirectionUp\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
-      "name": "DirectionUp",
-      "label": "Direction Up"
-    }, {
-      "action": "{\"command\":\"Select\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
-      "name": "Select",
-      "label": "Select"
-    }, {
-      "action": "{\"command\":\"Menu\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
-      "name": "Menu",
-      "label": "Menu"
-    }, {
-      "action": "{\"command\":\"InputHdmi1\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
-      "name": "InputHdmi1",
-      "label": "InputHdmi1"
-    }, {
-      "action": "{\"command\":\"InputHdmi2\",\"type\":\"IRCommand\",\"deviceId\":\"72306838\"}",
-      "name": "InputHdmi2",
-      "label": "InputHdmi2"
-    }]
+    "deviceId": "72306838"
   }]
 }
 ```
