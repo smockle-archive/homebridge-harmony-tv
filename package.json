@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Info: no test specified\" && exit 0",
+    "test": "npm run build && homebridge -P . -U ./.homebridge",
     "start": "node dist/bin/hubinfo.js"
   },
   "repository": {
