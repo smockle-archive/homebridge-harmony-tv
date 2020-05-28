@@ -1,17 +1,15 @@
-import {
-  Characteristic,
-  CharacteristicEventTypes,
-  CharacteristicValue,
-  Service,
-} from "homebridge";
+import type { CharacteristicValue, API } from "homebridge";
 import type { Hub } from "../hub";
 
 type TVServiceProps = {
   name: string;
   hub: Hub;
+  api: API;
 };
 
-export function getTVService({ name, hub }: TVServiceProps) {
+export function getTVService({ name, hub, api }: TVServiceProps) {
+  const { Service, Characteristic } = api.hap;
+
   const tvService = new Service.Television(name, "Television");
 
   tvService.setCharacteristic(Characteristic.ConfiguredName, name);
@@ -24,35 +22,32 @@ export function getTVService({ name, hub }: TVServiceProps) {
   // Power
   tvService
     .getCharacteristic(Characteristic.Active)
-    .on(CharacteristicEventTypes.SET, async (_: CharacteristicValue) => {
+    .on("set", async (_: CharacteristicValue) => {
       return await hub.send("PowerToggle");
     });
 
   // Remote Keys
   tvService
     .getCharacteristic(Characteristic.RemoteKey)
-    .on(
-      CharacteristicEventTypes.SET,
-      async (remoteKey: CharacteristicValue) => {
-        const remoteKeys = new Map([
-          [Characteristic.RemoteKey.ARROW_UP, "DirectionUp"],
-          [Characteristic.RemoteKey.ARROW_DOWN, "DirectionDown"],
-          [Characteristic.RemoteKey.ARROW_LEFT, "DirectionLeft"],
-          [Characteristic.RemoteKey.ARROW_RIGHT, "DirectionRight"],
-          [Characteristic.RemoteKey.SELECT, "Select"],
-          [Characteristic.RemoteKey.PLAY_PAUSE, "Select"],
-          [Characteristic.RemoteKey.INFORMATION, "Menu"],
-          [Characteristic.RemoteKey.BACK, "Menu"],
-          [Characteristic.RemoteKey.EXIT, "Menu"],
-        ]);
-        const command = remoteKeys.get(Number(remoteKey));
-        if (command) {
-          return await hub.send(command);
-        } else {
-          return Promise.reject(new Error("Failed to send command"));
-        }
+    .on("set", async (remoteKey: CharacteristicValue) => {
+      const remoteKeys = new Map([
+        [Characteristic.RemoteKey.ARROW_UP, "DirectionUp"],
+        [Characteristic.RemoteKey.ARROW_DOWN, "DirectionDown"],
+        [Characteristic.RemoteKey.ARROW_LEFT, "DirectionLeft"],
+        [Characteristic.RemoteKey.ARROW_RIGHT, "DirectionRight"],
+        [Characteristic.RemoteKey.SELECT, "Select"],
+        [Characteristic.RemoteKey.PLAY_PAUSE, "Select"],
+        [Characteristic.RemoteKey.INFORMATION, "Menu"],
+        [Characteristic.RemoteKey.BACK, "Menu"],
+        [Characteristic.RemoteKey.EXIT, "Menu"],
+      ]);
+      const command = remoteKeys.get(Number(remoteKey));
+      if (command) {
+        return await hub.send(command);
+      } else {
+        return Promise.reject(new Error("Failed to send command"));
       }
-    )
+    })
     .setProps({
       validValues: [
         Characteristic.RemoteKey.ARROW_UP,
@@ -71,7 +66,7 @@ export function getTVService({ name, hub }: TVServiceProps) {
   tvService.setCharacteristic(Characteristic.ActiveIdentifier, 0);
   tvService
     .getCharacteristic(Characteristic.ActiveIdentifier)
-    .on(CharacteristicEventTypes.SET, async (input: CharacteristicValue) => {
+    .on("set", async (input: CharacteristicValue) => {
       if (input === 0) {
         return await hub.send("InputHdmi1");
       } else {

@@ -1,15 +1,13 @@
-import {
-  Characteristic,
-  CharacteristicEventTypes,
-  CharacteristicValue,
-  Service,
-} from "homebridge";
+import type { CharacteristicValue, Service, API } from "homebridge";
 
 type SwitchServiceProps = {
   tvService: Service;
+  api: API;
 };
 
-export function getSwitchService({ tvService }: SwitchServiceProps) {
+export function getSwitchService({ tvService, api }: SwitchServiceProps) {
+  const { Service, Characteristic } = api.hap;
+
   let powerState: boolean = false;
 
   const switchService = new Service.Switch(
@@ -18,8 +16,8 @@ export function getSwitchService({ tvService }: SwitchServiceProps) {
 
   switchService
     .getCharacteristic(Characteristic.On)
-    .on(CharacteristicEventTypes.GET, () => powerState)
-    .on(CharacteristicEventTypes.SET, (value: CharacteristicValue) => {
+    .on("get", () => powerState)
+    .on("set", (value: CharacteristicValue) => {
       powerState = !!value;
       tvService.updateCharacteristic(Characteristic.Active, Number(!!value));
     });

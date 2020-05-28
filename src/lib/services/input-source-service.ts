@@ -1,10 +1,16 @@
-import { Characteristic, Service } from "homebridge";
+import type { Service, API } from "homebridge";
 
 type InputSourceServiceProps = {
   tvService: Service;
+  api: API;
 };
 
-export function getInputSourceService({ tvService }: InputSourceServiceProps) {
+export function getInputSourceService({
+  tvService,
+  api,
+}: InputSourceServiceProps) {
+  const { Service, Characteristic } = api.hap;
+
   const inputSourceService = new Service.InputSource("hdmi1", "HDMI 1");
 
   inputSourceService.setCharacteristic(

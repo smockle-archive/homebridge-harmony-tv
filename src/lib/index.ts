@@ -1,4 +1,10 @@
-import { AccessoryConfig, Logging, Service, API } from "homebridge";
+import type {
+  AccessoryConfig,
+  Logging,
+  Service,
+  AccessoryPlugin,
+  API,
+} from "homebridge";
 import { getHub, Hub } from "./hub";
 import {
   getInputSourceService,
@@ -7,20 +13,24 @@ import {
   getSwitchService,
 } from "./services";
 
-class HarmonyTVAccessory {
+class HarmonyTVAccessory implements AccessoryPlugin {
   enabledServices: Service[] = [];
   hub: Hub;
 
-  constructor(_: Logging, { name, host, remoteId, deviceId }: AccessoryConfig) {
+  constructor(
+    _: Logging,
+    { name, host, remoteId, deviceId }: AccessoryConfig,
+    api: API
+  ) {
     this.hub = getHub(host, remoteId, deviceId);
     const { hub } = this;
-    const tvService = getTVService({ name, hub });
+    const tvService = getTVService({ name, hub, api });
 
     this.enabledServices = [
       tvService,
-      getSpeakerService({ tvService, hub }),
-      getInputSourceService({ tvService }),
-      getSwitchService({ tvService }),
+      getSpeakerService({ tvService, hub, api }),
+      getInputSourceService({ tvService, api }),
+      getSwitchService({ tvService, api }),
     ];
   }
 
