@@ -1,15 +1,15 @@
 import { HarmonyHub } from "harmonyhub-api";
-import {
+import type {
   AccessoryConfig,
-  Characteristic,
-  CharacteristicEventTypes,
   CharacteristicSetCallback,
   CharacteristicValue,
   Logging,
   Service,
+  AccessoryPlugin,
+  API,
 } from "homebridge";
 
-export class HarmonyTVAccessory {
+export class HarmonyTVAccessory implements AccessoryPlugin {
   log: Logging;
   config: AccessoryConfig;
   name: string;
@@ -20,7 +20,9 @@ export class HarmonyTVAccessory {
   hub: HarmonyHub;
   previousPowerState: unknown;
 
-  constructor(log: Logging, config: AccessoryConfig) {
+  constructor(log: Logging, config: AccessoryConfig, api: API) {
+    const { Service, Characteristic } = api.hap;
+
     this.log = log;
     this.config = config;
     this.name = config.name;
@@ -52,7 +54,7 @@ export class HarmonyTVAccessory {
     tvService
       .getCharacteristic(Characteristic.Active)
       .on(
-        CharacteristicEventTypes.SET,
+        "set",
         (
           newValue: CharacteristicValue,
           callback: CharacteristicSetCallback
@@ -94,7 +96,7 @@ export class HarmonyTVAccessory {
     tvService
       .getCharacteristic(Characteristic.RemoteKey)
       .on(
-        CharacteristicEventTypes.SET,
+        "set",
         (
           newValue: CharacteristicValue,
           callback: CharacteristicSetCallback
@@ -165,7 +167,7 @@ export class HarmonyTVAccessory {
     speakerService
       .getCharacteristic(Characteristic.VolumeSelector)
       .on(
-        CharacteristicEventTypes.SET,
+        "set",
         (
           newValue: CharacteristicValue,
           callback: CharacteristicSetCallback
@@ -201,7 +203,7 @@ export class HarmonyTVAccessory {
     tvService
       .getCharacteristic(Characteristic.ActiveIdentifier)
       .on(
-        CharacteristicEventTypes.SET,
+        "set",
         (
           newValue: CharacteristicValue,
           callback: CharacteristicSetCallback

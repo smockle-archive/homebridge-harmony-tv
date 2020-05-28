@@ -1,4 +1,4 @@
-import { API } from "homebridge";
+import type { API } from "homebridge";
 
 import { HarmonyTVAccessory } from "./harmony-tv-accessory";
 
