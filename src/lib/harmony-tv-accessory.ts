@@ -1,4 +1,3 @@
-import { HarmonyHub } from "harmonyhub-api";
 import type {
   AccessoryConfig,
   CharacteristicSetCallback,
@@ -8,40 +7,33 @@ import type {
   AccessoryPlugin,
   API,
 } from "homebridge";
+import { Hub, getHub } from "./hub";
 
 export class HarmonyTVAccessory implements AccessoryPlugin {
-  log: Logging;
-  config: AccessoryConfig;
   name: string;
-  remoteId: string;
-  deviceId: string;
-  commands: { action: string; name: string }[];
   enabledServices: Service[];
-  hub: HarmonyHub;
+  hub: Hub;
   previousPowerState: unknown;
 
-  constructor(log: Logging, config: AccessoryConfig, api: API) {
+  constructor(
+    log: Logging,
+    { name, host, remoteId, deviceId, commands }: AccessoryConfig,
+    api: API
+  ) {
     const { Service, Characteristic } = api.hap;
 
-    this.log = log;
-    this.config = config;
-    this.name = config.name;
-    this.remoteId = config.remoteId;
-    this.deviceId = config.deviceId;
-    this.commands = config.commands;
+    this.name = name;
     this.enabledServices = [];
 
-    this.hub = new HarmonyHub(config.host, config.remoteId);
+    this.hub = getHub(host, remoteId, deviceId);
     this.previousPowerState = null;
-    if (!config.commands || !(config.commands instanceof Array)) {
-      throw new Error(
-        `Missing an array of 'commands'. Check your configuration file. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#configuration.`
-      );
-    }
+
     const inputs: {
       action: string;
       name: string;
-    }[] = config.commands.filter(({ name }) => name.match(/^Input[\w\d]+/));
+    }[] = commands.filter(({ name }: { name: string }) =>
+      name.match(/^Input[\w\d]+/)
+    );
 
     // TV
 
@@ -61,22 +53,13 @@ export class HarmonyTVAccessory implements AccessoryPlugin {
         ) => {
           const sendPowerCommand = (() => {
             switch (true) {
-              case newValue === 0 &&
-                this.supportsCommand("PowerOff") &&
-                this.supportsCommand("PowerOn"):
-                return this.sendCommand("PowerOff");
-              case newValue === 1 &&
-                this.supportsCommand("PowerOff") &&
-                this.supportsCommand("PowerOn"):
-                return this.sendCommand("PowerOn");
-              case newValue !== this.previousPowerState &&
-                this.supportsCommand("PowerToggle"):
-                return this.sendCommand("PowerToggle").then(
-                  () => (this.previousPowerState = newValue)
-                );
+              case newValue !== this.previousPowerState:
+                return this.hub
+                  .send("PowerToggle")
+                  .then(() => (this.previousPowerState = newValue));
               case newValue === this.previousPowerState:
                 return new Promise((resolve) => {
-                  this.log.debug("Ignored duplicate power command");
+                  log.debug("Ignored duplicate power command");
                   resolve();
                 });
               default:
@@ -88,7 +71,7 @@ export class HarmonyTVAccessory implements AccessoryPlugin {
           return sendPowerCommand
             .then(() => callback(null))
             .catch((error) => {
-              this.log.error(error);
+              log.error(error);
               callback(error);
             });
         }
@@ -103,42 +86,21 @@ export class HarmonyTVAccessory implements AccessoryPlugin {
         ) => {
           const sendCommand = (() => {
             switch (true) {
-              case newValue === Characteristic.RemoteKey.ARROW_UP &&
-                this.supportsCommand("DirectionUp"):
-                return this.sendCommand("DirectionUp");
-              case newValue === Characteristic.RemoteKey.ARROW_DOWN &&
-                this.supportsCommand("DirectionDown"):
-                return this.sendCommand("DirectionDown");
-              case newValue === Characteristic.RemoteKey.ARROW_LEFT &&
-                this.supportsCommand("DirectionLeft"):
-                return this.sendCommand("DirectionLeft");
-              case newValue === Characteristic.RemoteKey.ARROW_RIGHT &&
-                this.supportsCommand("DirectionRight"):
-                return this.sendCommand("DirectionRight");
-              case newValue === Characteristic.RemoteKey.SELECT &&
-                this.supportsCommand("Select"):
-              case newValue === Characteristic.RemoteKey.PLAY_PAUSE &&
-                this.supportsCommand("Select") &&
-                !this.supportsCommand("Play"):
-                return this.sendCommand("Select");
-              case newValue === Characteristic.RemoteKey.PLAY_PAUSE &&
-                this.supportsCommand("Play"):
-                return this.sendCommand("Play");
-              case newValue === Characteristic.RemoteKey.INFORMATION &&
-                this.supportsCommand("Menu"):
-              case newValue === Characteristic.RemoteKey.BACK &&
-                !this.supportsCommand("Back") &&
-                this.supportsCommand("Menu"):
-              case newValue === Characteristic.RemoteKey.EXIT &&
-                !this.supportsCommand("Home") &&
-                this.supportsCommand("Menu"):
-                return this.sendCommand("Menu");
-              case newValue === Characteristic.RemoteKey.BACK &&
-                this.supportsCommand("Back"):
-                return this.sendCommand("Back");
-              case newValue === Characteristic.RemoteKey.EXIT &&
-                this.supportsCommand("Home"):
-                return this.sendCommand("Home");
+              case newValue === Characteristic.RemoteKey.ARROW_UP:
+                return this.hub.send("DirectionUp");
+              case newValue === Characteristic.RemoteKey.ARROW_DOWN:
+                return this.hub.send("DirectionDown");
+              case newValue === Characteristic.RemoteKey.ARROW_LEFT:
+                return this.hub.send("DirectionLeft");
+              case newValue === Characteristic.RemoteKey.ARROW_RIGHT:
+                return this.hub.send("DirectionRight");
+              case newValue === Characteristic.RemoteKey.SELECT:
+              case newValue === Characteristic.RemoteKey.PLAY_PAUSE:
+                return this.hub.send("Select");
+              case newValue === Characteristic.RemoteKey.INFORMATION:
+              case newValue === Characteristic.RemoteKey.BACK:
+              case newValue === Characteristic.RemoteKey.EXIT:
+                return this.hub.send("Menu");
               default:
                 return Promise.reject(new Error("Failed to send command"));
             }
@@ -146,7 +108,7 @@ export class HarmonyTVAccessory implements AccessoryPlugin {
           return sendCommand
             .then(() => callback(null))
             .catch((error) => {
-              this.log.error(error);
+              log.error(error);
               callback(error);
             });
         }
@@ -174,12 +136,10 @@ export class HarmonyTVAccessory implements AccessoryPlugin {
         ) => {
           const sendVolumeCommand = (() => {
             switch (true) {
-              case newValue === Characteristic.VolumeSelector.INCREMENT &&
-                this.supportsCommand("VolumeUp"):
-                return this.sendCommand("VolumeUp");
-              case newValue === Characteristic.VolumeSelector.DECREMENT &&
-                this.supportsCommand("VolumeDown"):
-                return this.sendCommand("VolumeDown");
+              case newValue === Characteristic.VolumeSelector.INCREMENT:
+                return this.hub.send("VolumeUp");
+              case newValue === Characteristic.VolumeSelector.DECREMENT:
+                return this.hub.send("VolumeDown");
               default:
                 return Promise.reject(
                   new Error("Failed to send volume command")
@@ -189,7 +149,7 @@ export class HarmonyTVAccessory implements AccessoryPlugin {
           return sendVolumeCommand
             .then(() => callback(null))
             .catch((error) => {
-              this.log.error(error);
+              log.error(error);
               callback(error);
             });
         }
@@ -213,16 +173,12 @@ export class HarmonyTVAccessory implements AccessoryPlugin {
           }
           const { name: command } = inputs[newValue];
           const sendInputCommand = (() => {
-            if (this.supportsCommand(command)) {
-              return this.sendCommand(command);
-            } else {
-              return Promise.reject(new Error("Failed to send input command"));
-            }
+            return this.hub.send(command);
           })();
           return sendInputCommand
             .then(() => callback(null))
             .catch((error) => {
-              this.log.error(error);
+              log.error(error);
               callback(error);
             });
         }
@@ -263,41 +219,5 @@ export class HarmonyTVAccessory implements AccessoryPlugin {
 
   getServices() {
     return this.enabledServices;
-  }
-
-  supportsCommand(command: string): boolean {
-    return this.commands.some(({ name }) => name === command);
-  }
-
-  sendCommand(commandName: string) {
-    const command = this.commands.find(({ name }) => name === commandName);
-    if (!command) {
-      return Promise.reject(
-        new Error(
-          `Command ${commandName} not found for device with id ${this.deviceId}. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#setup.`
-        )
-      );
-    }
-    if (!command.action) {
-      return Promise.reject(
-        new Error(
-          `Command ${commandName} is missing a value for 'action'. Check your configuration file. For help with this error, see https://github.com/smockle/homebridge-harmony-tv#configuration.`
-        )
-      );
-    }
-    return new Promise((resolve, reject) => {
-      this.hub
-        .connect()
-        .then(() => {
-          this.hub.sendCommand(commandName, this.deviceId);
-        })
-        .then(() => {
-          this.hub.disconnect();
-        })
-        .then(() => {
-          resolve();
-        })
-        .catch((error: Error) => reject(error));
-    });
   }
 }
