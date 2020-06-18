@@ -49,7 +49,7 @@ available-typed-arrays@^1.0.0, available-typed-arrays@^1.0.2:
   dependencies:
     array-filter "^1.0.0"
 
-bonjour-hap@~3.5.8:
+bonjour-hap@~3.5.10:
   version "3.5.10"
   resolved "https://registry.yarnpkg.com/bonjour-hap/-/bonjour-hap-3.5.10.tgz#a9cd35dabf8eb75e9bfc54871d19d0c4ee41ed4e"
   integrity sha512-vaqa4uUST8K5rj9QGe6GaSJ+6rQ24KzgkjdyZvoTpbKBti5xL/m8H9Dp9VmPdo434OAetqU5PKAn5izucrKEBA==
@@ -65,10 +65,10 @@ buffer-from@^1.0.0:
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
   integrity sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==
 
-chalk@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-3.0.0.tgz#3f73c2bf526591f574cc492c51e2456349f844e4"
-  integrity sha512-4D3B6Wf41KOYRFdszmDqMCGq5VV/uMAB273JILmO+3jAlh8X4qDtdtgCR3fxtbLEMzSx22QdhnDcJvu2u1fVwg==
+chalk@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.0.tgz#4e14870a618d9e2edd97dd8345fd9d9dc315646a"
+  integrity sha512-qwx12AxXe2Q5xQ43Ac//I6v5aXTipYrSESdOgzrN+9XjgEpyjpKuvSGaN4qE93f7TQTlerQQ8S+EQ0EyDoVL1A==
   dependencies:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
@@ -131,10 +131,10 @@ colorspace@1.1.x:
     color "3.0.x"
     text-hex "1.0.x"
 
-commander@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-5.0.0.tgz#dbf1909b49e5044f8fdaf0adc809f0c0722bdfd0"
-  integrity sha512-JrDGPAKjMGSP1G0DUoaceEJ3DZgAfr/q6X7FVk4+U5KxUSKviYGM2k6zWkfyyBHy5rAtzgYJFa1ro2O9PtoxwQ==
+commander@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
+  integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
 
 core-util-is@~1.0.0:
   version "1.0.2"
@@ -301,10 +301,10 @@ fast-safe-stringify@^2.0.4:
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.0.7.tgz#124aa885899261f68aedb42a7c080de9da608743"
   integrity sha512-Utm6CdzT+6xsDk2m8S6uL8VHxNwI6Jub+e9NYTcAms28T84pTa25GJQV9j0CY0N1rM8hK4x6grpF2BQf+2qwVA==
 
-fast-srp-hap@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/fast-srp-hap/-/fast-srp-hap-2.0.1.tgz#00cbd4f92cbd031ca6437b64ae81bab6d3aeb4f8"
-  integrity sha512-dClwnyfRd3BZxu3KAdhvAayozq7fLazXGlDc4HAHJV1M+olqGKAT52pygXQu5UiDSHxz/WB3KRvsojqQ5zmXOA==
+fast-srp-hap@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/fast-srp-hap/-/fast-srp-hap-2.0.2.tgz#a359fd550b804389c1372d7feaad8892c6dcf4b6"
+  integrity sha512-wABhZRrFhlovqJQ1HygOUB4R6WZW2hmlpvVYh2dVCy8BPLabDrB/Tu6XI3B4QfmhtHk8s1OeiFqJHY7FBsphug==
 
 fecha@^2.3.3:
   version "2.3.3"
@@ -326,15 +326,15 @@ futoin-hkdf@~1.3.2:
   resolved "https://registry.yarnpkg.com/futoin-hkdf/-/futoin-hkdf-1.3.2.tgz#cd9a09153e3db7d166b9717f872991a4950430cd"
   integrity sha512-3EVi3ETTyJg5PSXlxLCaUVVn0pSbDf62L3Gwxne7Uq+d8adOSNWQAad4gg7WToHkcgnCJb3Wlb1P8r4Evj4GPw==
 
-hap-nodejs@^0.7.3:
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/hap-nodejs/-/hap-nodejs-0.7.3.tgz#aef573b743f3ac0c8bc36254ddf23ddda95fe947"
-  integrity sha512-kCPwdRizCPJk43eTSMtW2LtCh+it8rTYW7aGkhW8qFKPS4z5JQilpggvVJvdfmSy5l+L5F0/UyKwkeM/KsdrHA==
+hap-nodejs@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/hap-nodejs/-/hap-nodejs-0.7.4.tgz#7ddd91a7a76651f40062ab7e2101aebe62c48804"
+  integrity sha512-6Caxx3yfRXHKJCtNe71QwThGUqRjr27tNiwd/SK8LEUX0+A0a9Su8NWQOyFJVp/e3d3UqTsBHrxPEeRhj8oKtQ==
   dependencies:
-    bonjour-hap "~3.5.8"
+    bonjour-hap "~3.5.10"
     debug "^4.1.1"
     decimal.js "^10.2.0"
-    fast-srp-hap "2.0.1"
+    fast-srp-hap "2.0.2"
     futoin-hkdf "~1.3.2"
     ip "^1.1.3"
     node-persist "^0.0.11"
@@ -367,13 +367,13 @@ has@^1.0.3:
     function-bind "^1.1.1"
 
 homebridge@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/homebridge/-/homebridge-1.1.0.tgz#f3e96657d482baaa978e80e886dbc9e52c0c9a75"
-  integrity sha512-OMs+1A2G6lkMOrAk0o1nmj8S3XkhwrInVwRDiyLB3aHRQS02KQ/Egv1stV9vDhjib86v3y3MLHIYYzbxKHLjPA==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/homebridge/-/homebridge-1.1.1.tgz#0a575a00110442a7f3fafabe6f4eda785f765b7d"
+  integrity sha512-eOmHjRSkmkCD3iUqQKAo1fcSFs8gZCAW4LVjBYpxH6mEgKQlYxh9tUtgEIzny6bkplYmOOahQPHSjzfNTDjr6w==
   dependencies:
-    chalk "^3.0.0"
-    commander "5.0.0"
-    hap-nodejs "^0.7.3"
+    chalk "^4.1.0"
+    commander "5.1.0"
+    hap-nodejs "^0.7.4"
     node-persist "^0.0.11"
     qrcode-terminal "^0.12.0"
     semver "^7.3.2"
