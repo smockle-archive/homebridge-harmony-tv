@@ -36,13 +36,21 @@ export class HarmonyTVAccessory implements AccessoryPlugin {
       Characteristic.SleepDiscoveryMode,
       Characteristic.SleepDiscoveryMode.ALWAYS_DISCOVERABLE
     );
+    let activeState = 0;
     tvService
       .getCharacteristic(Characteristic.Active)
       .on(
         "set",
-        (_: CharacteristicValue, callback: CharacteristicSetCallback) => {
+        (
+          newActiveState: CharacteristicValue,
+          callback: CharacteristicSetCallback
+        ) => {
+          if (activeState === Number(!!newActiveState)) {
+            return callback(null);
+          }
           return hub
             .send("PowerToggle")
+            .then(() => (activeState = Number(!!newActiveState)))
             .then(() => callback(null))
             .catch((error) => {
               log.error(error);
