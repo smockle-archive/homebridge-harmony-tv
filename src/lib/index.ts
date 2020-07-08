@@ -1,11 +1,7 @@
 import type { API } from "homebridge";
 
-import { HarmonyTVAccessory } from "./harmony-tv-accessory";
+import { HarmonyTVPlatform } from "./harmony-tv-platform";
 
-export default function (homebridge: API) {
-  homebridge.registerAccessory(
-    "homebridge-harmony-tv-smockle",
-    "HarmonyTV",
-    HarmonyTVAccessory
-  );
+export default function (api: API) {
+  api.registerPlatform("HarmonyTV", HarmonyTVPlatform);
 }
