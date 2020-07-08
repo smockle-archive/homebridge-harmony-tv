@@ -43,8 +43,9 @@ yarn global add homebridge-harmony-tv-smockle
     "pin": "031-45-154"
   },
   "description": "SmartHome with Homebridge",
-  "accessories": [{
-    "accessory": "HarmonyTV",
+  "accessories": [],
+  "platforms": [{
+    "platform": "HarmonyTV",
     "name": "Living Room TV",
     "host": "192.168.1.10",
     "remoteId": "22571993",
