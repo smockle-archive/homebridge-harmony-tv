@@ -208,6 +208,7 @@ export class HarmonyTVAccessory implements AccessoryPlugin {
           newState: CharacteristicValue,
           callback: CharacteristicSetCallback
         ) => {
+          activeState = Number(!!newState);
           tvService
             .getCharacteristic(Characteristic.Active)
             .updateValue(Number(!!newState));
