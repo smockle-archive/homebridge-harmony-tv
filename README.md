@@ -41,7 +41,7 @@ npm install --global homebridge-harmony-tv-smockle
     "pin": "031-45-154"
   },
   "description": "Homebridge Harmony TV",
-  "accessories": [{}],
+  "accessories": [],
   "platforms": [{
     "platform": "HarmonyTV",
     "name": "Living Room TV",
