@@ -268,6 +268,30 @@ class HarmonyTVPlugin implements IndependentPlatformPlugin {
       );
     tvService.addLinkedService(hdmi1InputService); // link to tv service
 
+    // Switch
+    const switchService = tvAccessory.addService(
+      this.Service.Switch,
+      `${name} Power State`
+    );
+    switchService
+      .getCharacteristic(this.Characteristic.On)
+      .on(
+        "set",
+        (
+          newState: CharacteristicValue,
+          callback: CharacteristicSetCallback
+        ) => {
+          this.activeState = !!newState
+            ? this.api.hap.Characteristic.Active.ACTIVE
+            : this.api.hap.Characteristic.Active.INACTIVE;
+          tvService
+            .getCharacteristic(this.Characteristic.Active)
+            .updateValue(this.activeState);
+          callback();
+        }
+      );
+    tvService.addLinkedService(switchService);
+
     /**
      * Publish as external accessory
      * Only one TV can exist per bridge, to bypass this limitation, you should
